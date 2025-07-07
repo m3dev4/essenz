@@ -1,13 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import env from 'dotenv';
+import { envConfig } from './config/env.config';
 
 const app = express();
-//serveur
-env.config();
 
-const port = process.env.port || 8080;
+const port = envConfig.PORT
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -20,6 +18,6 @@ app.get('/', (req: any, res: any) => {
   });
 });
 
-app.listen(port, async () => {
-  console.log(`Serveur démarré avec succéss ${port}`);
+app.listen(envConfig.PORT, async () => {
+  console.log(`Serveur démarré avec succéss ${envConfig.PORT}`);
 });
