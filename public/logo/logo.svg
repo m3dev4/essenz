@@ -1,0 +1,19 @@
+<svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .logo-text { font-family: 'Arial', sans-serif; font-weight: bold; }
+      .e-inverse { fill: #10B981; font-size: 60px; }
+      .rest-text { fill: #1F2937; font-size: 60px; }
+      .plus-accent { fill: #F97316; font-size: 30px; }
+    </style>
+  </defs>
+  
+  <!-- E inversé en vert -->
+  <text x="20" y="65" class="logo-text e-inverse">ɘ</text>
+  
+  <!-- Reste du texte -->
+  <text x="70" y="65" class="logo-text rest-text">ssenz</text>
+  
+  <!-- Plus en accent orange -->
+  <text x="35" y="35" class="logo-text plus-accent">+</text>
+</svg>
