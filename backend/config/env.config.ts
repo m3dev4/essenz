@@ -10,6 +10,7 @@ const appcConfig = () => {
   return {
     NODE_ENV: getEnv('NODE_ENV', 'development'),
     PORT: getEnv('PORT', '8080'),
+    SENTRY_DSN: getEnv('SENTRY_DSN', '')
   };
 };
 
