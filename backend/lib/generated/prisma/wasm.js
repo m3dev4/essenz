@@ -129,6 +129,7 @@ exports.Prisma.UserScalarFieldEnum = {
   username: 'username',
   email: 'email',
   password: 'password',
+  role: 'role',
   bio: 'bio',
   avatarUrl: 'avatarUrl',
   createdAt: 'createdAt',
@@ -147,7 +148,8 @@ exports.Prisma.SessionScalarFieldEnum = {
   isOnline: 'isOnline',
   lastActiveAt: 'lastActiveAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  expiresAt: 'expiresAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -164,7 +166,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.UserRoles = exports.$Enums.UserRoles = {
+  ADMIN: 'ADMIN',
+  USER: 'USER',
+  MODERATOR: 'MODERATOR'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',

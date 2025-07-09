@@ -1,0 +1,32 @@
+import { UserRoles } from '../lib/generated/prisma';
+
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+  role: UserRoles;
+  bio: string;
+  avatarUrl: string;
+  createdAt: Date;
+  updatedAt: Date;
+  isVerified: boolean;
+  verificationToken: string | null;
+  verificationTokenExpiresAt: Date | null;
+  isPremium: boolean;
+  sessions: Session[];
+}
+
+export interface Session {
+  id: string;
+  userId: string;
+  location: string;
+  deviceInfo: string;
+  isOnline: boolean;
+  lastActiveAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  expiresAt: Date;
+}

@@ -16,6 +16,7 @@ model User {
   username                   String    @unique
   email                      String    @unique
   password                   String
+  role                       UserRoles @default(USER)
   bio                        String
   avatarUrl                  String
   createdAt                  DateTime  @default(now())
@@ -38,4 +39,11 @@ model Session {
   lastActiveAt DateTime @default(now())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @default(now())
+  expiresAt    DateTime
+}
+
+enum UserRoles {
+  ADMIN
+  USER
+  MODERATOR
 }
