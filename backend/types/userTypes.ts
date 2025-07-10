@@ -30,3 +30,10 @@ export interface Session {
   updatedAt: Date;
   expiresAt: Date;
 }
+
+
+export interface UserCreateDto {
+  username: string
+  email: string 
+  password: string
+}
