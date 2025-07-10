@@ -11,7 +11,8 @@ const appcConfig = () => {
     NODE_ENV: getEnv('NODE_ENV', 'development'),
     PORT: getEnv('PORT', '8080'),
     SENTRY_DSN: getEnv('SENTRY_DSN', ''),
-    RESEND_API: getEnv('RESEND_API', '')
+    RESEND_API: getEnv('RESEND_API', ''),
+    JWT_SECRET: getEnv('JWT_SECRET', ''),
   };
 };
 
