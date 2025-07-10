@@ -7,7 +7,7 @@
                                             
 ----------------------------------------------------------------
 
-<img src="/public/logo/logo.svg" alt="Essenz+ Logo" width="180"/>
+<img src="/public/logo/logo.svg" alt="Essenz+ Logo" width="500"/>
 
 #  🔍Vision: <br>
 Essenz+ a pour ambition de devenir le réseau social le plus humain, le plus interactif et le plus pertinent de sa génération. Dans un monde où les grandes plateformes captent l'attention mais diluent l'authenticité, Essenz+ propose de remettre l'utilisateur au cœur de l'échange. L'objectif est de bâtir une app tout-en-un, qui mêle connexion sociale, divertissement, apprentissage et information, dans un environnement sain, dynamique et communautaire. <br>
