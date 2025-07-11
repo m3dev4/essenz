@@ -74,7 +74,11 @@ export class UserService {
   //Verify user email
   public async verifyUserEmail(token: string, email: string): Promise<User> {
     const user = await this.prisma.user.findFirst({
-      where: { verificationToken: token, email, isVerified: false },
+      where: {
+        verificationToken: String(token),
+        email: email.toLowerCase().trim(),
+        isVerified: false,
+      },
       include: {
         sessions: true,
       },

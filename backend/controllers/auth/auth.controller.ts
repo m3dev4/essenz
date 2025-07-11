@@ -41,9 +41,9 @@ export class UserController {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         await verifyEmailValidator.validate(req.body);
-        const { email, token } = req.body;
+        const { token, email } = req.body;
 
-        const user = await this.UserService.verifyUserEmail(email, token);
+        const user = await this.UserService.verifyUserEmail(token, email);
         const session = await this.UserService.createSession(user.id, '', '');
         res.status(200).json({
           success: true,

@@ -6,5 +6,6 @@ const userController = new UserController();
 const router: express.Router = express.Router();
 
 router.post('/register', userController.createUser);
+router.post('/verify-email', userController.verifyEmail)
 
 export default router;
