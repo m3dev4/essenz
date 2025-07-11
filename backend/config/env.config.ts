@@ -13,6 +13,7 @@ const appcConfig = () => {
     SENTRY_DSN: getEnv('SENTRY_DSN', ''),
     RESEND_API: getEnv('RESEND_API', ''),
     JWT_SECRET: getEnv('JWT_SECRET', ''),
+    APP_URL: getEnv('APP_URL', 'http://localhost:3000'),
   };
 };
 

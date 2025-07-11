@@ -58,7 +58,6 @@ export class UserService {
         bio: '',
         avatarUrl: '',
         role: UserRoles.USER,
-        isPremium: false,
       },
       include: {
         sessions: true,
@@ -70,5 +69,72 @@ export class UserService {
       throw new AppError(error.message, 500, true, error.message);
     }
     return user;
+  }
+
+  //Verify user email
+  public async verifyUserEmail(token: string, email: string): Promise<User> {
+    const user = await this.prisma.user.findFirst({
+      where: { verificationToken: token, email, isVerified: false },
+      include: {
+        sessions: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+
+    if (user.isVerified) {
+      throw new AppError(
+        'User already verified',
+        400,
+        true,
+        'User already verified',
+      );
+    }
+    if (user.verificationTokenExpiresAt) {
+      if (user.verificationTokenExpiresAt < new Date()) {
+        throw new AppError(
+          'Verification token expired',
+          400,
+          true,
+          'Verification token expired',
+        );
+      }
+    }
+
+    user.isVerified = true;
+    user.verificationToken = null;
+    user.verificationTokenExpiresAt = null;
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        isVerified: true,
+        verificationToken: null,
+        verificationTokenExpiresAt: null,
+      },
+      include: {
+        sessions: true,
+      },
+    });
+    return updatedUser;
+  }
+  // Créer une session apres la verification
+  public async createSession(
+    userId: string,
+    location: string,
+    deviceInfo: string,
+  ) {
+    return await this.prisma.session.create({
+      data: {
+        userId,
+        location,
+        deviceInfo,
+        isOnline: true,
+        lastActiveAt: new Date(),
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      },
+    });
   }
 }
