@@ -16,7 +16,6 @@ model User {
   username                   String    @unique
   email                      String    @unique
   password                   String
-  role                       UserRoles @default(USER)
   bio                        String
   avatarUrl                  String
   createdAt                  DateTime  @default(now())
@@ -25,8 +24,8 @@ model User {
   verificationToken          String?
   verificationTokenExpiresAt DateTime?
   isPremium                  Boolean   @default(false)
-
-  sessions Session[]
+  role                       UserRoles @default(USER)
+  sessions                   Session[]
 }
 
 model Session {

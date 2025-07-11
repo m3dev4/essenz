@@ -7,7 +7,6 @@ export interface User {
   username: string;
   email: string;
   password: string;
-  role: UserRoles;
   bio: string;
   avatarUrl: string;
   createdAt: Date;
@@ -16,6 +15,7 @@ export interface User {
   verificationToken: string | null;
   verificationTokenExpiresAt: Date | null;
   isPremium: boolean;
+  role: UserRoles;
   sessions: Session[];
 }
 
@@ -29,4 +29,15 @@ export interface Session {
   createdAt: Date;
   updatedAt: Date;
   expiresAt: Date;
+}
+
+export interface UserCreateDto {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginDto {
+  email: string;
+  password: string;
 }

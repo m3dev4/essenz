@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 const asynchandler =
-  (fn) => (req: Request, res: Response, next: NextFunction) => {
+  (fn: any) => (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch((err) => {
       console.error(`error: ${err.message}`);
       res.status(err.statusCode || 500).json({
