@@ -26,6 +26,7 @@ model User {
   isPremium                  Boolean   @default(false)
   role                       UserRoles @default(USER)
   sessions                   Session[]
+
 }
 
 model Session {

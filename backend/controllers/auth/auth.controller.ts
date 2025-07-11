@@ -2,11 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import asynchandler from '../../middlewares/asynchandler';
 import { UserService } from '../../services/user/user.service';
 import {
+  loginValidator,
   signUpValidator,
   verifyEmailValidator,
 } from '../../validators/userValidator';
 import AppError from '../../middlewares/AppError';
-import { UserCreateDto } from '../../types/userTypes';
+import { LoginDto, UserCreateDto } from '../../types/userTypes';
 
 export class UserController {
   private UserService: UserService;
@@ -48,6 +49,32 @@ export class UserController {
         res.status(200).json({
           success: true,
           message: 'Email verified successfully',
+          data: { user, sessionId: session.id },
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
+      }
+    },
+  );
+
+  //Login
+  public login = asynchandler(
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        await loginValidator.validate(req.body);
+
+        const userData: LoginDto = req.body;
+
+        const user = await this.UserService.login(userData);
+        const session = await this.UserService.createSession(
+          user.user.id,
+          '',
+          '',
+        );
+
+        res.status(200).json({
+          success: true,
+          message: 'User logged in successfully',
           data: { user, sessionId: session.id },
         });
       } catch (error: any) {

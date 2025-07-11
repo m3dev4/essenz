@@ -13,3 +13,8 @@ export const verifyEmailValidator = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is require'),
   token: yup.string().required('Token is require'),
 });
+
+export const loginValidator = yup.object().shape({
+  email: yup.string().email('Invalid email').required('Email is require'),
+  password: yup.string().required('Password is require'),
+});

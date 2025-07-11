@@ -1,7 +1,7 @@
 import { PrismaClient, UserRoles } from '../../lib/generated/prisma';
 import { sendVerificationEmail } from '../../mail/resend';
 import AppError from '../../middlewares/AppError';
-import { User, UserCreateDto } from '../../types/userTypes';
+import { LoginDto, User, UserCreateDto } from '../../types/userTypes';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 
@@ -140,5 +140,31 @@ export class UserService {
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       },
     });
+  }
+
+  //Login
+  public async login(
+    loginData: LoginDto,
+  ): Promise<{ user: User; sessionId: string }> {
+    const user = await this.prisma.user.findUnique({
+      where: { email: loginData.email.toLowerCase().trim() },
+      include: { sessions: true },
+    });
+
+    if (!user) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      loginData.password,
+      user.password,
+    );
+    if (!isPasswordValid) {
+      throw new AppError('Invalid password', 401, true, 'Invalid password');
+    }
+
+    const session = await this.createSession(user.id, '', '');
+
+    return { user, sessionId: session.id };
   }
 }
