@@ -42,3 +42,4 @@ app.get('/', (req: any, res: any) => {
 app.listen(envConfig.PORT, async () => {
   console.log(`Serveur démarré avec succéss ${envConfig.PORT}`);
 });
+
