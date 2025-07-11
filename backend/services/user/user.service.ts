@@ -167,4 +167,18 @@ export class UserService {
 
     return { user, sessionId: session.id };
   }
+
+  //Logout
+  public async logout(sessionId: string) {
+    const session = await this.prisma.session.findUnique({
+      where: { id: sessionId },
+    });
+    console.log(session);
+    if (!session) {
+      throw new AppError('Session not found', 404, true, 'Session not found');
+    }
+    return await this.prisma.session.delete({
+      where: { id: sessionId },
+    });
+  }
 }
