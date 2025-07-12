@@ -17,5 +17,5 @@ router.get('/profile/username/:username', userController.getProfileByUsername);
 
 //Private profile
 router.get('/profile/me/:id', isAuthenticated, userController.getProfile);
-
+router.put('/profile/update/:id', isAuthenticated, userController.updateUser);
 export default router;

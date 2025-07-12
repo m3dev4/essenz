@@ -42,11 +42,20 @@ export interface LoginDto {
   password: string;
 }
 
-
 export interface userProfile {
-  id: string
-  firstName: string
-  lastName: string
-  avatarUrl: string
-  bio: string
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
+  bio: string;
+}
+
+export interface updateUserDto {
+  id: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  avatarUrl: string;
+  password: string;
+  currentPassword: string;
 }

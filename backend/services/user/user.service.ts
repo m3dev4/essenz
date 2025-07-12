@@ -4,6 +4,7 @@ import { sendVerificationEmail } from '../../mail/resend';
 import AppError from '../../middlewares/AppError';
 import {
   LoginDto,
+  updateUserDto,
   User,
   UserCreateDto,
   userProfile,
@@ -229,5 +230,61 @@ export class UserService {
     }
 
     return user;
+  }
+
+  //Update user
+  public async updateUser(
+    userId: string,
+    userData: updateUserDto,
+  ): Promise<User> {
+    if (!userId) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+  
+    // Préparer les données à mettre à jour
+    const updateData: any = {
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      bio: userData.bio,
+      avatarUrl: userData.avatarUrl,
+    };
+  
+    // Si un nouveau mot de passe est fourni
+    if (userData.password && userData.currentPassword) {
+      // Récupérer l'utilisateur pour vérifier l'ancien mot de passe
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId }
+      });
+      
+      if (!user) {
+        throw new AppError('User not found', 404, true, 'User not found');
+      }
+  
+      // Vérifier l'ancien mot de passe
+      const isCurrentPasswordValid = await bcrypt.compare(
+        userData.currentPassword,
+        user.password,
+      );
+      
+      if (!isCurrentPasswordValid) {
+        throw new AppError('Current password is invalid', 401, true, 'Current password is invalid');
+      }
+  
+      // Hacher le nouveau mot de passe
+      const saltRounds = 12;
+      const passwordHash = await bcrypt.hash(userData.password, saltRounds);
+      updateData.password = passwordHash;
+    }
+  
+    // Mettre à jour l'utilisateur
+    const userUpdate = await this.prisma.user.update({
+      where: { id: userId },
+      data: updateData,
+      include: {
+        sessions: true,
+      },
+    });
+  
+    return userUpdate;
   }
 }

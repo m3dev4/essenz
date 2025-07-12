@@ -4,10 +4,11 @@ import { UserService } from '../../services/user/user.service';
 import {
   loginValidator,
   signUpValidator,
+  updateUserValidator,
   verifyEmailValidator,
 } from '../../validators/userValidator';
 import AppError from '../../middlewares/AppError';
-import { LoginDto, UserCreateDto } from '../../types/userTypes';
+import { LoginDto, updateUserDto, UserCreateDto } from '../../types/userTypes';
 
 export class UserController {
   private UserService: UserService;
@@ -139,6 +140,25 @@ export class UserController {
         message: 'User profile retrieved successfully',
         data: user,
       });
+    },
+  );
+
+  //update user
+  public updateUser = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        await updateUserValidator.validate(req.body);
+        const userData: updateUserDto = req.body;
+        const userId = req.params.id;
+        const user = await this.UserService.updateUser(userId, userData);
+        res.status(200).json({
+          success: true,
+          message: 'User updated successfully',
+          data: user,
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
+      }
     },
   );
 }
