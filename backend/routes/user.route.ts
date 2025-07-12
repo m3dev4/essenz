@@ -10,4 +10,7 @@ router.post('/verify-email', userController.verifyEmail);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 
+router.get('/profile/id/:id', userController.getProfile);
+router.get('/profile/username/:username', userController.getProfileByUsername);
+
 export default router;

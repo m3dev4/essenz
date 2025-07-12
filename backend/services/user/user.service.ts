@@ -181,4 +181,41 @@ export class UserService {
       where: { id: sessionId },
     });
   }
+
+  // getProfile User
+  public async getProfileUser(userId: string): Promise<User> {
+    if (!userId) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        sessions: true,
+      },
+    });
+    if (!user) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+    return user;
+  }
+
+  //GetProfleByUsername
+  public async getProfileByUsername(username: string): Promise<User> {
+    if (!username) {
+      throw new AppError('Username not found', 404, true, 'Username not found');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { username: username.toLowerCase().trim() },
+      include: {
+        sessions: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+
+    return user;
+  }
 }

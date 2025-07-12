@@ -59,49 +59,78 @@ export class UserController {
 
   //Login
   public login = asynchandler(
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      await loginValidator.validate(req.body);
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        await loginValidator.validate(req.body);
 
-      const userData: LoginDto = req.body;
-      const { user, sessionId } = await this.UserService.login(userData);
+        const userData: LoginDto = req.body;
+        const { user, sessionId } = await this.UserService.login(userData);
 
-      res.status(200).json({
-        success: true,
-        message: 'User logged in successfully',
-        data: { user, sessionId },
-      });
-    } catch (error: any) {
-      throw new AppError(error.message, 500, true, error.message);
-    }
-  },
-);
+        res.status(200).json({
+          success: true,
+          message: 'User logged in successfully',
+          data: { user, sessionId },
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
+      }
+    },
+  );
 
   //logout
- public logout = asynchandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // Récupérer sessionId depuis le body, headers ou cookies
-      const sessionId = req.body.sessionId || req.headers['x-session-id'] || req.cookies.sessionId;
-      
-      if (!sessionId) {
-        throw new AppError(
-          'Session ID required',
-          400,
-          true,
-          'Session ID required',
-        );
+  public logout = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        // Récupérer sessionId depuis le body, headers ou cookies
+        const sessionId =
+          req.body.sessionId ||
+          req.headers['x-session-id'] ||
+          req.cookies.sessionId;
+
+        if (!sessionId) {
+          throw new AppError(
+            'Session ID required',
+            400,
+            true,
+            'Session ID required',
+          );
+        }
+
+        await this.UserService.logout(sessionId);
+
+        res.status(200).json({
+          success: true,
+          message: 'User logged out successfully',
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
       }
-      
-      await this.UserService.logout(sessionId);
-      
+    },
+  );
+
+  //getProfile
+  public getProfile = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const userId = req.params.id;
+      const user = await this.UserService.getProfileUser(userId);
       res.status(200).json({
         success: true,
-        message: 'User logged out successfully',
+        message: 'User profile retrieved successfully',
+        data: user,
       });
-    } catch (error: any) {
-      throw new AppError(error.message, 500, true, error.message);
-    }
-  },
-);
+    },
+  );
+
+  //getProfileByUsername
+  public getProfileByUsername = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const username = req.params.username;
+      const user = await this.UserService.getProfileByUsername(username);
+      res.status(200).json({
+        success: true,
+        message: 'User profile retrieved successfully',
+        data: user,
+      });
+    },
+  );
 }
