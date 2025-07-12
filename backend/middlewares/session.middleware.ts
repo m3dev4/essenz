@@ -26,7 +26,7 @@ import { User } from '../types/userTypes';
 
 interface RequestWithUser extends Request {
   user?: User;
-  sessionId?: string;
+  sessionId: string;
 }
 
 const prisma = new PrismaClient();
@@ -76,7 +76,7 @@ export const authenticateSession = async (
       req.sessionId = sessionId;
     }
     next();
-  } catch (error) {
+  } catch (error:any) {
     return res.status(500).json({
       message: error.message,
     });

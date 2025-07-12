@@ -1,12 +1,23 @@
+import { envConfig } from '../../config/env.config';
 import { PrismaClient, UserRoles } from '../../lib/generated/prisma';
 import { sendVerificationEmail } from '../../mail/resend';
 import AppError from '../../middlewares/AppError';
-import { LoginDto, User, UserCreateDto } from '../../types/userTypes';
+import {
+  LoginDto,
+  User,
+  UserCreateDto,
+  userProfile,
+} from '../../types/userTypes';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 
 export class UserService {
   private prisma: PrismaClient;
+
+  private generateJWT(userId: string): string {
+    return jwt.sign({ userId }, envConfig.JWT_SECRET, { expiresIn: '1d' });
+  }
 
   constructor() {
     this.prisma = new PrismaClient();
@@ -145,7 +156,7 @@ export class UserService {
   //Login
   public async login(
     loginData: LoginDto,
-  ): Promise<{ user: User; sessionId: string }> {
+  ): Promise<{ user: User; sessionId: string; token: string }> {
     const user = await this.prisma.user.findUnique({
       where: { email: loginData.email.toLowerCase().trim() },
       include: { sessions: true },
@@ -164,8 +175,9 @@ export class UserService {
     }
 
     const session = await this.createSession(user.id, '', '');
+    const token = this.generateJWT(user.id);
 
-    return { user, sessionId: session.id };
+    return { user, sessionId: session.id, token };
   }
 
   //Logout
@@ -200,7 +212,7 @@ export class UserService {
   }
 
   //GetProfleByUsername
-  public async getProfileByUsername(username: string): Promise<User> {
+  public async getProfileByUsername(username: string): Promise<userProfile> {
     if (!username) {
       throw new AppError('Username not found', 404, true, 'Username not found');
     }

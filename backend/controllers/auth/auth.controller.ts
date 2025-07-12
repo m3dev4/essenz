@@ -64,7 +64,9 @@ export class UserController {
         await loginValidator.validate(req.body);
 
         const userData: LoginDto = req.body;
-        const { user, sessionId } = await this.UserService.login(userData);
+        const { user, sessionId, token } =
+          await this.UserService.login(userData);
+        res.cookie('jwt', token, { httpOnly: true, secure: true });
 
         res.status(200).json({
           success: true,
@@ -97,6 +99,12 @@ export class UserController {
         }
 
         await this.UserService.logout(sessionId);
+
+        res.clearCookie('jwt', {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'lax',
+        });
 
         res.status(200).json({
           success: true,
