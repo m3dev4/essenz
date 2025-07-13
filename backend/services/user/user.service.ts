@@ -1,12 +1,24 @@
+import { envConfig } from '../../config/env.config';
 import { PrismaClient, UserRoles } from '../../lib/generated/prisma';
 import { sendVerificationEmail } from '../../mail/resend';
 import AppError from '../../middlewares/AppError';
-import { LoginDto, User, UserCreateDto } from '../../types/userTypes';
+import {
+  LoginDto,
+  updateUserDto,
+  User,
+  UserCreateDto,
+  userProfile,
+} from '../../types/userTypes';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 
 export class UserService {
   private prisma: PrismaClient;
+
+  private generateJWT(userId: string): string {
+    return jwt.sign({ userId }, envConfig.JWT_SECRET, { expiresIn: '1d' });
+  }
 
   constructor() {
     this.prisma = new PrismaClient();
@@ -145,7 +157,7 @@ export class UserService {
   //Login
   public async login(
     loginData: LoginDto,
-  ): Promise<{ user: User; sessionId: string }> {
+  ): Promise<{ user: User; sessionId: string; token: string }> {
     const user = await this.prisma.user.findUnique({
       where: { email: loginData.email.toLowerCase().trim() },
       include: { sessions: true },
@@ -164,8 +176,9 @@ export class UserService {
     }
 
     const session = await this.createSession(user.id, '', '');
+    const token = this.generateJWT(user.id);
 
-    return { user, sessionId: session.id };
+    return { user, sessionId: session.id, token };
   }
 
   //Logout
@@ -180,5 +193,98 @@ export class UserService {
     return await this.prisma.session.delete({
       where: { id: sessionId },
     });
+  }
+
+  // getProfile User
+  public async getProfileUser(userId: string): Promise<User> {
+    if (!userId) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        sessions: true,
+      },
+    });
+    if (!user) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+    return user;
+  }
+
+  //GetProfleByUsername
+  public async getProfileByUsername(username: string): Promise<userProfile> {
+    if (!username) {
+      throw new AppError('Username not found', 404, true, 'Username not found');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { username: username.toLowerCase().trim() },
+      include: {
+        sessions: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+
+    return user;
+  }
+
+  //Update user
+  public async updateUser(
+    userId: string,
+    userData: updateUserDto,
+  ): Promise<User> {
+    if (!userId) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+  
+    // Préparer les données à mettre à jour
+    const updateData: any = {
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      bio: userData.bio,
+      avatarUrl: userData.avatarUrl,
+    };
+  
+    // Si un nouveau mot de passe est fourni
+    if (userData.password && userData.currentPassword) {
+      // Récupérer l'utilisateur pour vérifier l'ancien mot de passe
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId }
+      });
+      
+      if (!user) {
+        throw new AppError('User not found', 404, true, 'User not found');
+      }
+  
+      // Vérifier l'ancien mot de passe
+      const isCurrentPasswordValid = await bcrypt.compare(
+        userData.currentPassword,
+        user.password,
+      );
+      
+      if (!isCurrentPasswordValid) {
+        throw new AppError('Current password is invalid', 401, true, 'Current password is invalid');
+      }
+  
+      // Hacher le nouveau mot de passe
+      const saltRounds = 12;
+      const passwordHash = await bcrypt.hash(userData.password, saltRounds);
+      updateData.password = passwordHash;
+    }
+  
+    // Mettre à jour l'utilisateur
+    const userUpdate = await this.prisma.user.update({
+      where: { id: userId },
+      data: updateData,
+      include: {
+        sessions: true,
+      },
+    });
+  
+    return userUpdate;
   }
 }

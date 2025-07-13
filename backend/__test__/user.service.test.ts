@@ -1,4 +1,5 @@
 import { UserService } from '../services/user/user.service';
+import bcrypt from 'bcrypt';
 
 // On va simuler (mock) Prisma pour ne pas toucher à la vraie base de données
 const mockPrisma = {
@@ -18,6 +19,12 @@ jest.mock('../mail/resend', () => ({
   sendVerificationEmail: jest.fn(),
 }));
 
+jest.mock('bcrypt', () => ({
+  compare: jest.fn(),
+  hash: jest.fn(),
+}));
+
+//User create
 describe('UserService', () => {
   let userService: UserService;
 
@@ -43,11 +50,70 @@ describe('UserService', () => {
     };
 
     // Act
+    (bcrypt.hash as jest.Mock).mockResolvedValueOnce('hashedpassword');
     const user = await userService.createUser(userData as any);
 
     // Assert
     expect(user).toHaveProperty('id');
     expect(user.email).toBe('test@mail.com');
     expect(user.username).toBe('testuser');
+  });
+});
+
+//User login
+describe('UserService', () => {
+  let userService: UserService;
+
+  beforeEach(() => {
+    userService = new UserService();
+    jest.clearAllMocks();
+  });
+  it('Se connecter avec un utilisateur', async () => {
+    mockPrisma.user.findUnique.mockResolvedValueOnce({
+      id: 1,
+      email: 'test@mail.com',
+      username: 'testuser',
+      password: 'hashedpassword',
+    });
+
+    mockPrisma.user.findUnique.mockResolvedValueOnce({
+      id: 1,
+      email: 'test@mail.com',
+      username: 'testuser',
+      password: 'hashedpassword',
+    });
+
+    const loginData = {
+      email: 'test@mail.com',
+      password: 'hashedpassword',
+    };
+
+    (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true);
+
+    userService.createSession = jest
+      .fn()
+      .mockResolvedValueOnce({ id: 'sessionid' });
+    const result = await userService.login({
+      email: 'test@mail.com',
+      password: 'hashedpassword',
+    });
+
+    expect(result.user.email).toBe('test@mail.com');
+    expect(result.user.username).toBe('testuser');
+    expect(result.sessionId).toBe('sessionid');
+  });
+  it('doit echouere si le mot de passe est invalide', async () => {
+    userService['prisma'].user.findUnique = jest.fn().mockResolvedValueOnce({
+      id: 1,
+      email: 'test@mail.com',
+      username: 'testuser',
+      password: 'hashedpassword',
+    });
+
+    (bcrypt.compare as jest.Mock).mockResolvedValueOnce(false);
+
+    await expect(
+      userService.login({ email: 'test@mail.com', password: 'hashedpassword' }),
+    ).rejects.toThrow();
   });
 });

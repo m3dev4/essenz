@@ -4,10 +4,11 @@ import { UserService } from '../../services/user/user.service';
 import {
   loginValidator,
   signUpValidator,
+  updateUserValidator,
   verifyEmailValidator,
 } from '../../validators/userValidator';
 import AppError from '../../middlewares/AppError';
-import { LoginDto, UserCreateDto } from '../../types/userTypes';
+import { LoginDto, updateUserDto, UserCreateDto } from '../../types/userTypes';
 
 export class UserController {
   private UserService: UserService;
@@ -59,49 +60,105 @@ export class UserController {
 
   //Login
   public login = asynchandler(
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      await loginValidator.validate(req.body);
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        await loginValidator.validate(req.body);
 
-      const userData: LoginDto = req.body;
-      const { user, sessionId } = await this.UserService.login(userData);
+        const userData: LoginDto = req.body;
+        const { user, sessionId, token } =
+          await this.UserService.login(userData);
+        res.cookie('jwt', token, { httpOnly: true, secure: true });
 
-      res.status(200).json({
-        success: true,
-        message: 'User logged in successfully',
-        data: { user, sessionId },
-      });
-    } catch (error: any) {
-      throw new AppError(error.message, 500, true, error.message);
-    }
-  },
-);
+        res.status(200).json({
+          success: true,
+          message: 'User logged in successfully',
+          data: { user, sessionId },
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
+      }
+    },
+  );
 
   //logout
- public logout = asynchandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // Récupérer sessionId depuis le body, headers ou cookies
-      const sessionId = req.body.sessionId || req.headers['x-session-id'] || req.cookies.sessionId;
-      
-      if (!sessionId) {
-        throw new AppError(
-          'Session ID required',
-          400,
-          true,
-          'Session ID required',
-        );
+  public logout = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        // Récupérer sessionId depuis le body, headers ou cookies
+        const sessionId =
+          req.body.sessionId ||
+          req.headers['x-session-id'] ||
+          req.cookies.sessionId;
+
+        if (!sessionId) {
+          throw new AppError(
+            'Session ID required',
+            400,
+            true,
+            'Session ID required',
+          );
+        }
+
+        await this.UserService.logout(sessionId);
+
+        res.clearCookie('jwt', {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'lax',
+        });
+
+        res.status(200).json({
+          success: true,
+          message: 'User logged out successfully',
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
       }
-      
-      await this.UserService.logout(sessionId);
-      
+    },
+  );
+
+  //getProfile
+  public getProfile = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const userId = req.params.id;
+      const user = await this.UserService.getProfileUser(userId);
       res.status(200).json({
         success: true,
-        message: 'User logged out successfully',
+        message: 'User profile retrieved successfully',
+        data: user,
       });
-    } catch (error: any) {
-      throw new AppError(error.message, 500, true, error.message);
-    }
-  },
-);
+    },
+  );
+
+  //getProfileByUsername
+  public getProfileByUsername = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const username = req.params.username;
+      const user = await this.UserService.getProfileByUsername(username);
+      res.status(200).json({
+        success: true,
+        message: 'User profile retrieved successfully',
+        data: user,
+      });
+    },
+  );
+
+  //update user
+  public updateUser = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        await updateUserValidator.validate(req.body);
+        const userData: updateUserDto = req.body;
+        const userId = req.params.id;
+        const user = await this.UserService.updateUser(userId, userData);
+        res.status(200).json({
+          success: true,
+          message: 'User updated successfully',
+          data: user,
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
+      }
+    },
+  );
 }

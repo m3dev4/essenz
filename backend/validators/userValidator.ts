@@ -18,3 +18,12 @@ export const loginValidator = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is require'),
   password: yup.string().required('Password is require'),
 });
+
+export const updateUserValidator = yup.object().shape({
+  firstName: yup.string().notRequired(),
+  lastName: yup.string().notRequired(),
+  bio: yup.string().notRequired(),
+  avatarUrl: yup.string().notRequired(),
+  password: yup.string().required('Password is require'),
+  currentPassword: yup.string().required("Current password is require"),
+});
