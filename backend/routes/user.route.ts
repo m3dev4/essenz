@@ -22,6 +22,8 @@ router.delete('/profile/delete/:id', isAuthenticated, userController.deleteUser)
 
 ///Route admin
 router.get('/admin/users', isAuthenticated, isAdmin, userController.getAllUsers)
+router.get('/admin/users/:id', isAuthenticated, isAdmin, userController.getUserById)
+router.delete('/admin/users/delete/:id', isAuthenticated, isAdmin, userController.deleteUserById)
 
 
 export default router;

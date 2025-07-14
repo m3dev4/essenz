@@ -194,4 +194,39 @@ export class UserController {
       }
     },
   );
+
+  //Get user by id
+  public getUserById = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const userId = req.params.id;
+        const user = await this.UserService.getUserById(userId);
+        res.status(200).json({
+          success: true,
+          message: 'User retrieved successfully',
+          data: user,
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
+      }
+    },
+  );
+
+  //delete user by id
+  public deleteUserById = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const userId = req.params.id;
+        const deleteUser = await this.UserService.deleteUserById(userId);
+        res.status(200).json({
+          success: true,
+          message: 'User deleted successfully',
+          data: deleteUser,
+        });
+      } catch (error: any) {
+        console.error("Error lors de la suppression de l'utilisateur", error);
+        throw new AppError('Error lors de la suppression', 500, true, error);
+      }
+    },
+  );
 }
