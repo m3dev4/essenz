@@ -16,8 +16,8 @@ model User {
   username                   String    @unique
   email                      String    @unique
   password                   String
-  bio                        String      
-  avatarUrl                  String 
+  bio                        String
+  avatarUrl                  String
   createdAt                  DateTime  @default(now())
   updatedAt                  DateTime  @default(now())
   isVerified                 Boolean   @default(false)
@@ -26,7 +26,6 @@ model User {
   isPremium                  Boolean   @default(false)
   role                       UserRoles @default(USER)
   sessions                   Session[]
-
 }
 
 model Session {
@@ -35,6 +34,11 @@ model Session {
   user         User     @relation(fields: [userId], references: [id])
   location     String
   deviceInfo   String
+  ipAdress     String
+  userAgent    String
+  browser      String?
+  os           String?
+  deviceType   String
   isOnline     Boolean  @default(false)
   lastActiveAt DateTime @default(now())
   createdAt    DateTime @default(now())

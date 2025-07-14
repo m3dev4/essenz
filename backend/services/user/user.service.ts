@@ -139,14 +139,25 @@ export class UserService {
   // Créer une session apres la verification
   public async createSession(
     userId: string,
-    location: string,
-    deviceInfo: string,
+    sessionData: {
+      ipAdress: string;
+      userAgent: string;
+      deviceType: string;
+      browser?: string;
+      os?: string;
+      location: string;
+    },
   ) {
     return await this.prisma.session.create({
       data: {
         userId,
-        location,
-        deviceInfo,
+        ipAdress: sessionData.ipAdress,
+        userAgent: sessionData.userAgent,
+        deviceType: sessionData.deviceType,
+        browser: sessionData.browser,
+        os: sessionData.os,
+        location: sessionData.location || '',
+        deviceInfo: `${sessionData.deviceType} - ${sessionData.browser || 'Unknown'} - ${sessionData.os || 'Unknown'}`,
         isOnline: true,
         lastActiveAt: new Date(),
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
@@ -157,6 +168,14 @@ export class UserService {
   //Login
   public async login(
     loginData: LoginDto,
+    sessionInfo: {
+      ipAdress: string;
+      userAgent: string;
+      deviceType: string;
+      browser?: string;
+      os?: string;
+      location: string;
+    },
   ): Promise<{ user: User; sessionId: string; token: string }> {
     const user = await this.prisma.user.findUnique({
       where: { email: loginData.email.toLowerCase().trim() },
@@ -175,7 +194,7 @@ export class UserService {
       throw new AppError('Invalid password', 401, true, 'Invalid password');
     }
 
-    const session = await this.createSession(user.id, '', '');
+    const session = await this.createSession(user.id, sessionInfo);
     const token = this.generateJWT(user.id);
 
     return { user, sessionId: session.id, token };

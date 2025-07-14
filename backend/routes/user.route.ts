@@ -18,12 +18,30 @@ router.get('/profile/username/:username', userController.getProfileByUsername);
 //Private profile
 router.get('/profile/me/:id', isAuthenticated, userController.getProfile);
 router.put('/profile/update/:id', isAuthenticated, userController.updateUser);
-router.delete('/profile/delete/:id', isAuthenticated, userController.deleteUser);
+router.delete(
+  '/profile/delete/:id',
+  isAuthenticated,
+  userController.deleteUser,
+);
 
 ///Route admin
-router.get('/admin/users', isAuthenticated, isAdmin, userController.getAllUsers)
-router.get('/admin/users/:id', isAuthenticated, isAdmin, userController.getUserById)
-router.delete('/admin/users/delete/:id', isAuthenticated, isAdmin, userController.deleteUserById)
-
+router.get(
+  '/admin/users',
+  isAuthenticated,
+  isAdmin,
+  userController.getAllUsers,
+);
+router.get(
+  '/admin/users/:id',
+  isAuthenticated,
+  isAdmin,
+  userController.getUserById,
+);
+router.delete(
+  '/admin/users/delete/:id',
+  isAuthenticated,
+  isAdmin,
+  userController.deleteUserById,
+);
 
 export default router;
