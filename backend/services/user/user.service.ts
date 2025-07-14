@@ -240,7 +240,7 @@ export class UserService {
     if (!userId) {
       throw new AppError('User not found', 404, true, 'User not found');
     }
-  
+
     // Préparer les données à mettre à jour
     const updateData: any = {
       firstName: userData.firstName,
@@ -248,34 +248,39 @@ export class UserService {
       bio: userData.bio,
       avatarUrl: userData.avatarUrl,
     };
-  
+
     // Si un nouveau mot de passe est fourni
     if (userData.password && userData.currentPassword) {
       // Récupérer l'utilisateur pour vérifier l'ancien mot de passe
       const user = await this.prisma.user.findUnique({
-        where: { id: userId }
+        where: { id: userId },
       });
-      
+
       if (!user) {
         throw new AppError('User not found', 404, true, 'User not found');
       }
-  
+
       // Vérifier l'ancien mot de passe
       const isCurrentPasswordValid = await bcrypt.compare(
         userData.currentPassword,
         user.password,
       );
-      
+
       if (!isCurrentPasswordValid) {
-        throw new AppError('Current password is invalid', 401, true, 'Current password is invalid');
+        throw new AppError(
+          'Current password is invalid',
+          401,
+          true,
+          'Current password is invalid',
+        );
       }
-  
+
       // Hacher le nouveau mot de passe
       const saltRounds = 12;
       const passwordHash = await bcrypt.hash(userData.password, saltRounds);
       updateData.password = passwordHash;
     }
-  
+
     // Mettre à jour l'utilisateur
     const userUpdate = await this.prisma.user.update({
       where: { id: userId },
@@ -284,7 +289,30 @@ export class UserService {
         sessions: true,
       },
     });
-  
+
     return userUpdate;
+  }
+
+  //delete user
+  public async deleteUser(userId: string): Promise<any> {
+    if (!userId) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+    await this.prisma.session.deleteMany({
+      where: { userId: userId }
+    })
+    const user = await this.prisma.user.delete({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new AppError(
+        'User can be delete because is not found',
+        404,
+        true,
+        'User can be delete because is not found',
+      );
+    }
+    return user;
   }
 }

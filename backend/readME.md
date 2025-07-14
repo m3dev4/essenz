@@ -156,5 +156,110 @@ After verifying `/auth/verify?token=123456&email=john@doe.com`, the user may log
 
 ---
 
+## Docker & Microservices
+
+### Architecture Microservices
+Le backend est organisé en microservices indépendants, chacun avec sa propre configuration Docker.
+
+#### Structure des Services
+```bash
+backend/
+└─ services/
+   └─ user/
+      ├── Dockerfile
+      ├── docker-compose.yml
+      ├── package.json
+      ├── tsconfig.json
+      └── user.service.ts
+```
+
+### Configuration Docker
+
+#### Dockerfile (Exemple pour le service User)
+```dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copie les fichiers de configuration
+COPY package*.json .
+COPY tsconfig.json .
+
+# Installation des dépendances
+RUN npm install -g pnpm
+RUN pnpm install
+
+# Copie le code source
+COPY . .
+
+# Compilation
+RUN pnpm run build
+
+# Configuration du démarrage
+CMD ["node", "dist/user.service.js"]
+EXPOSE 8080
+```
+
+#### docker-compose.yml
+```yaml
+services:
+  user-service:
+    build:
+      context: ../../..
+      dockerfile: backend/services/user/Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/essenz
+      - RESEND_API=${RESEND_API}
+      - NODE_ENV=production
+
+  # Service de base de données (optionnel si utilisant une base externe)
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=essenz
+    ports:
+      - '5432:5432'
+```
+
+### Déploiement avec Docker
+
+1. **Build et Lancement**
+```bash
+# Dans le dossier du service
+docker-compose up --build
+
+# Pour une reconstruction forcée
+docker-compose up --build --force-recreate
+```
+
+2. **Variables d'Environnement**
+Les variables sensibles peuvent être définies dans un fichier `.env` ou via des variables d'environnement Docker.
+
+3. **Communication Entre Services**
+Les services peuvent communiquer via leurs noms définis dans docker-compose.yml (ex: `http://user-service:8080`)
+
+### Bonnes Pratiques
+
+1. **Indépendance des Services**
+   - Chaque service doit avoir son propre package.json
+   - Les dépendances communes doivent être gérées via des packages partagés
+   - Éviter les imports relatifs vers des dossiers parents
+
+2. **Configuration**
+   - Utiliser des variables d'environnement pour la configuration
+   - Séparer la configuration de développement et production
+   - Documenter toutes les variables nécessaires
+
+3. **Tests**
+   - Tester chaque service indépendamment
+   - Vérifier la communication entre services
+   - Tester les cas d'erreur et de redémarrage
+
+---
+
 ## License
 MIT © 2025 Essenz+ Team

@@ -1,0 +1,9 @@
+services:
+  user-service:
+    build: .
+    ports:
+      - '8080:8080'
+    environment:
+      - DATABASE_URI=postgresql://postgres.hqnyojilccjeejukorsn:cAfP6BEtKMvSbzTy@aws-0-us-west-1.pooler.supabase.com:6543/postgres
+      - DIRECT_URL=postgresql://postgres.hqnyojilccjeejukorsn:cAfP6BEtKMvSbzTy@aws-0-us-west-1.pooler.supabase.com:6543/postgres
+      - JWT_SECRET=monTokenJWT

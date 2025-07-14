@@ -18,4 +18,5 @@ router.get('/profile/username/:username', userController.getProfileByUsername);
 //Private profile
 router.get('/profile/me/:id', isAuthenticated, userController.getProfile);
 router.put('/profile/update/:id', isAuthenticated, userController.updateUser);
+router.delete('/profile/delete/:id', isAuthenticated, userController.deleteUser);
 export default router;

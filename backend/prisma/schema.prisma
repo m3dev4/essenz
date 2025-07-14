@@ -17,7 +17,7 @@ model User {
   email                      String    @unique
   password                   String
   bio                        String
-  avatarUrl                  String
+  avatarUrl                  String 
   createdAt                  DateTime  @default(now())
   updatedAt                  DateTime  @default(now())
   isVerified                 Boolean   @default(false)

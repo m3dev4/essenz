@@ -161,4 +161,22 @@ export class UserController {
       }
     },
   );
+
+  // delete user
+  public deleteUser = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const userId = req.params.id;
+        const user = await this.UserService.deleteUser(userId);
+        res.status(200).json({
+          success: true,
+          message: 'User deleted successfuly',
+          data: user,
+        });
+      } catch (error: any) {
+        console.error("Erreur lors du suppression de l'utilisateur", error);
+        throw new AppError('Error lors du suppression', 500, true, error);
+      }
+    },
+  );
 }
