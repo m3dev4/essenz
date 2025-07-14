@@ -179,4 +179,19 @@ export class UserController {
       }
     },
   );
+  //get all users
+  public getAllUsers = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const users = await this.UserService.getAllUser();
+        res.status(200).json({
+          success: true,
+          message: 'Users retrieved successfully',
+          data: users,
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
+      }
+    },
+  );
 }

@@ -299,8 +299,8 @@ export class UserService {
       throw new AppError('User not found', 404, true, 'User not found');
     }
     await this.prisma.session.deleteMany({
-      where: { userId: userId }
-    })
+      where: { userId: userId },
+    });
     const user = await this.prisma.user.delete({
       where: { id: userId },
     });
@@ -313,6 +313,20 @@ export class UserService {
         'User can be delete because is not found',
       );
     }
+    return user;
+  }
+
+  public async getAllUser(): Promise<any> {
+    const user = await this.prisma.user.findMany({
+      include: {
+        sessions: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+
     return user;
   }
 }

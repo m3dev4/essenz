@@ -1,6 +1,6 @@
 import express from 'express';
 import { UserController } from '../controllers/auth/auth.controller';
-import { isAuthenticated } from '../middlewares/auth.middleware';
+import { isAdmin, isAuthenticated } from '../middlewares/auth.middleware';
 
 const userController = new UserController();
 
@@ -19,4 +19,9 @@ router.get('/profile/username/:username', userController.getProfileByUsername);
 router.get('/profile/me/:id', isAuthenticated, userController.getProfile);
 router.put('/profile/update/:id', isAuthenticated, userController.updateUser);
 router.delete('/profile/delete/:id', isAuthenticated, userController.deleteUser);
+
+///Route admin
+router.get('/admin/users', isAuthenticated, isAdmin, userController.getAllUsers)
+
+
 export default router;
