@@ -12,6 +12,7 @@
     "test:coverage": "jest --coverage",
     "dev": "nodemon index.ts",
     "start": "index.ts",
+    "build": "tsc index.ts",
     "lint": "eslint \"**/*.{ts,js}\"",
     "lint:fix": "eslint \"**/*.{ts,js}\" --fix",
     "format": "prettier --write \"src/**/*.ts\""

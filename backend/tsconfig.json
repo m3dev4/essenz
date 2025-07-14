@@ -29,6 +29,6 @@
       "@/types/*": ["types/*"]
     }
   },
-  "include": ["./**/*"],
+  "include": ["*.ts"],
   "exclude": ["node_modules", "dist", "tests"]
 }
