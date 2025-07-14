@@ -2060,6 +2060,11 @@ export namespace Prisma {
     userId: string | null
     location: string | null
     deviceInfo: string | null
+    ipAdress: string | null
+    userAgent: string | null
+    browser: string | null
+    os: string | null
+    deviceType: string | null
     isOnline: boolean | null
     lastActiveAt: Date | null
     createdAt: Date | null
@@ -2072,6 +2077,11 @@ export namespace Prisma {
     userId: string | null
     location: string | null
     deviceInfo: string | null
+    ipAdress: string | null
+    userAgent: string | null
+    browser: string | null
+    os: string | null
+    deviceType: string | null
     isOnline: boolean | null
     lastActiveAt: Date | null
     createdAt: Date | null
@@ -2084,6 +2094,11 @@ export namespace Prisma {
     userId: number
     location: number
     deviceInfo: number
+    ipAdress: number
+    userAgent: number
+    browser: number
+    os: number
+    deviceType: number
     isOnline: number
     lastActiveAt: number
     createdAt: number
@@ -2098,6 +2113,11 @@ export namespace Prisma {
     userId?: true
     location?: true
     deviceInfo?: true
+    ipAdress?: true
+    userAgent?: true
+    browser?: true
+    os?: true
+    deviceType?: true
     isOnline?: true
     lastActiveAt?: true
     createdAt?: true
@@ -2110,6 +2130,11 @@ export namespace Prisma {
     userId?: true
     location?: true
     deviceInfo?: true
+    ipAdress?: true
+    userAgent?: true
+    browser?: true
+    os?: true
+    deviceType?: true
     isOnline?: true
     lastActiveAt?: true
     createdAt?: true
@@ -2122,6 +2147,11 @@ export namespace Prisma {
     userId?: true
     location?: true
     deviceInfo?: true
+    ipAdress?: true
+    userAgent?: true
+    browser?: true
+    os?: true
+    deviceType?: true
     isOnline?: true
     lastActiveAt?: true
     createdAt?: true
@@ -2207,6 +2237,11 @@ export namespace Prisma {
     userId: string
     location: string
     deviceInfo: string
+    ipAdress: string
+    userAgent: string
+    browser: string | null
+    os: string | null
+    deviceType: string
     isOnline: boolean
     lastActiveAt: Date
     createdAt: Date
@@ -2236,6 +2271,11 @@ export namespace Prisma {
     userId?: boolean
     location?: boolean
     deviceInfo?: boolean
+    ipAdress?: boolean
+    userAgent?: boolean
+    browser?: boolean
+    os?: boolean
+    deviceType?: boolean
     isOnline?: boolean
     lastActiveAt?: boolean
     createdAt?: boolean
@@ -2249,6 +2289,11 @@ export namespace Prisma {
     userId?: boolean
     location?: boolean
     deviceInfo?: boolean
+    ipAdress?: boolean
+    userAgent?: boolean
+    browser?: boolean
+    os?: boolean
+    deviceType?: boolean
     isOnline?: boolean
     lastActiveAt?: boolean
     createdAt?: boolean
@@ -2262,6 +2307,11 @@ export namespace Prisma {
     userId?: boolean
     location?: boolean
     deviceInfo?: boolean
+    ipAdress?: boolean
+    userAgent?: boolean
+    browser?: boolean
+    os?: boolean
+    deviceType?: boolean
     isOnline?: boolean
     lastActiveAt?: boolean
     createdAt?: boolean
@@ -2286,6 +2336,11 @@ export namespace Prisma {
       userId: string
       location: string
       deviceInfo: string
+      ipAdress: string
+      userAgent: string
+      browser: string | null
+      os: string | null
+      deviceType: string
       isOnline: boolean
       lastActiveAt: Date
       createdAt: Date
@@ -2689,6 +2744,11 @@ export namespace Prisma {
     readonly userId: FieldRef<"Session", 'String'>
     readonly location: FieldRef<"Session", 'String'>
     readonly deviceInfo: FieldRef<"Session", 'String'>
+    readonly ipAdress: FieldRef<"Session", 'String'>
+    readonly userAgent: FieldRef<"Session", 'String'>
+    readonly browser: FieldRef<"Session", 'String'>
+    readonly os: FieldRef<"Session", 'String'>
+    readonly deviceType: FieldRef<"Session", 'String'>
     readonly isOnline: FieldRef<"Session", 'Boolean'>
     readonly lastActiveAt: FieldRef<"Session", 'DateTime'>
     readonly createdAt: FieldRef<"Session", 'DateTime'>
@@ -3066,6 +3126,11 @@ export namespace Prisma {
     userId: 'userId',
     location: 'location',
     deviceInfo: 'deviceInfo',
+    ipAdress: 'ipAdress',
+    userAgent: 'userAgent',
+    browser: 'browser',
+    os: 'os',
+    deviceType: 'deviceType',
     isOnline: 'isOnline',
     lastActiveAt: 'lastActiveAt',
     createdAt: 'createdAt',
@@ -3284,6 +3349,11 @@ export namespace Prisma {
     userId?: StringFilter<"Session"> | string
     location?: StringFilter<"Session"> | string
     deviceInfo?: StringFilter<"Session"> | string
+    ipAdress?: StringFilter<"Session"> | string
+    userAgent?: StringFilter<"Session"> | string
+    browser?: StringNullableFilter<"Session"> | string | null
+    os?: StringNullableFilter<"Session"> | string | null
+    deviceType?: StringFilter<"Session"> | string
     isOnline?: BoolFilter<"Session"> | boolean
     lastActiveAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
@@ -3297,6 +3367,11 @@ export namespace Prisma {
     userId?: SortOrder
     location?: SortOrder
     deviceInfo?: SortOrder
+    ipAdress?: SortOrder
+    userAgent?: SortOrder
+    browser?: SortOrderInput | SortOrder
+    os?: SortOrderInput | SortOrder
+    deviceType?: SortOrder
     isOnline?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
@@ -3313,6 +3388,11 @@ export namespace Prisma {
     userId?: StringFilter<"Session"> | string
     location?: StringFilter<"Session"> | string
     deviceInfo?: StringFilter<"Session"> | string
+    ipAdress?: StringFilter<"Session"> | string
+    userAgent?: StringFilter<"Session"> | string
+    browser?: StringNullableFilter<"Session"> | string | null
+    os?: StringNullableFilter<"Session"> | string | null
+    deviceType?: StringFilter<"Session"> | string
     isOnline?: BoolFilter<"Session"> | boolean
     lastActiveAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
@@ -3326,6 +3406,11 @@ export namespace Prisma {
     userId?: SortOrder
     location?: SortOrder
     deviceInfo?: SortOrder
+    ipAdress?: SortOrder
+    userAgent?: SortOrder
+    browser?: SortOrderInput | SortOrder
+    os?: SortOrderInput | SortOrder
+    deviceType?: SortOrder
     isOnline?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
@@ -3344,6 +3429,11 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Session"> | string
     location?: StringWithAggregatesFilter<"Session"> | string
     deviceInfo?: StringWithAggregatesFilter<"Session"> | string
+    ipAdress?: StringWithAggregatesFilter<"Session"> | string
+    userAgent?: StringWithAggregatesFilter<"Session"> | string
+    browser?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    os?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    deviceType?: StringWithAggregatesFilter<"Session"> | string
     isOnline?: BoolWithAggregatesFilter<"Session"> | boolean
     lastActiveAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
@@ -3485,6 +3575,11 @@ export namespace Prisma {
     id?: string
     location: string
     deviceInfo: string
+    ipAdress: string
+    userAgent: string
+    browser?: string | null
+    os?: string | null
+    deviceType: string
     isOnline?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
@@ -3498,6 +3593,11 @@ export namespace Prisma {
     userId: string
     location: string
     deviceInfo: string
+    ipAdress: string
+    userAgent: string
+    browser?: string | null
+    os?: string | null
+    deviceType: string
     isOnline?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
@@ -3509,6 +3609,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     deviceInfo?: StringFieldUpdateOperationsInput | string
+    ipAdress?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: StringFieldUpdateOperationsInput | string
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3522,6 +3627,11 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     deviceInfo?: StringFieldUpdateOperationsInput | string
+    ipAdress?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: StringFieldUpdateOperationsInput | string
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3534,6 +3644,11 @@ export namespace Prisma {
     userId: string
     location: string
     deviceInfo: string
+    ipAdress: string
+    userAgent: string
+    browser?: string | null
+    os?: string | null
+    deviceType: string
     isOnline?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
@@ -3545,6 +3660,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     deviceInfo?: StringFieldUpdateOperationsInput | string
+    ipAdress?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: StringFieldUpdateOperationsInput | string
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3557,6 +3677,11 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     deviceInfo?: StringFieldUpdateOperationsInput | string
+    ipAdress?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: StringFieldUpdateOperationsInput | string
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3789,6 +3914,11 @@ export namespace Prisma {
     userId?: SortOrder
     location?: SortOrder
     deviceInfo?: SortOrder
+    ipAdress?: SortOrder
+    userAgent?: SortOrder
+    browser?: SortOrder
+    os?: SortOrder
+    deviceType?: SortOrder
     isOnline?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
@@ -3801,6 +3931,11 @@ export namespace Prisma {
     userId?: SortOrder
     location?: SortOrder
     deviceInfo?: SortOrder
+    ipAdress?: SortOrder
+    userAgent?: SortOrder
+    browser?: SortOrder
+    os?: SortOrder
+    deviceType?: SortOrder
     isOnline?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
@@ -3813,6 +3948,11 @@ export namespace Prisma {
     userId?: SortOrder
     location?: SortOrder
     deviceInfo?: SortOrder
+    ipAdress?: SortOrder
+    userAgent?: SortOrder
+    browser?: SortOrder
+    os?: SortOrder
+    deviceType?: SortOrder
     isOnline?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
@@ -4068,6 +4208,11 @@ export namespace Prisma {
     id?: string
     location: string
     deviceInfo: string
+    ipAdress: string
+    userAgent: string
+    browser?: string | null
+    os?: string | null
+    deviceType: string
     isOnline?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
@@ -4079,6 +4224,11 @@ export namespace Prisma {
     id?: string
     location: string
     deviceInfo: string
+    ipAdress: string
+    userAgent: string
+    browser?: string | null
+    os?: string | null
+    deviceType: string
     isOnline?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
@@ -4120,6 +4270,11 @@ export namespace Prisma {
     userId?: StringFilter<"Session"> | string
     location?: StringFilter<"Session"> | string
     deviceInfo?: StringFilter<"Session"> | string
+    ipAdress?: StringFilter<"Session"> | string
+    userAgent?: StringFilter<"Session"> | string
+    browser?: StringNullableFilter<"Session"> | string | null
+    os?: StringNullableFilter<"Session"> | string | null
+    deviceType?: StringFilter<"Session"> | string
     isOnline?: BoolFilter<"Session"> | boolean
     lastActiveAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
@@ -4219,6 +4374,11 @@ export namespace Prisma {
     id?: string
     location: string
     deviceInfo: string
+    ipAdress: string
+    userAgent: string
+    browser?: string | null
+    os?: string | null
+    deviceType: string
     isOnline?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
@@ -4230,6 +4390,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     deviceInfo?: StringFieldUpdateOperationsInput | string
+    ipAdress?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: StringFieldUpdateOperationsInput | string
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4241,6 +4406,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     deviceInfo?: StringFieldUpdateOperationsInput | string
+    ipAdress?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: StringFieldUpdateOperationsInput | string
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4252,6 +4422,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     deviceInfo?: StringFieldUpdateOperationsInput | string
+    ipAdress?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: StringFieldUpdateOperationsInput | string
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

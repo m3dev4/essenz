@@ -24,11 +24,25 @@ export interface Session {
   userId: string;
   location: string;
   deviceInfo: string;
+  deviceType: string;
+  browser?: string | null;
+  os: string | null;
+  ipAdress: string;
+  userAgent: string;
   isOnline: boolean;
   lastActiveAt: Date;
   createdAt: Date;
   updatedAt: Date;
   expiresAt: Date;
+}
+
+export interface SessionCreateDto {
+  ipAdress: string;
+  userAgent: string;
+  deviceType?: string;
+  browser?: string;
+  os?: string;
+  location: string;
 }
 
 export interface UserCreateDto {

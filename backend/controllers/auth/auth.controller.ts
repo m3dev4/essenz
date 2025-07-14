@@ -9,6 +9,7 @@ import {
 } from '../../validators/userValidator';
 import AppError from '../../middlewares/AppError';
 import { LoginDto, updateUserDto, UserCreateDto } from '../../types/userTypes';
+import { extractDeviceInfo, getClientIP } from '../../utils/sessionUtils';
 
 export class UserController {
   private UserService: UserService;
@@ -45,8 +46,22 @@ export class UserController {
         await verifyEmailValidator.validate(req.body);
         const { token, email } = req.body;
 
+        const userAgent = req.headers['user-agent'] || '';
+        const ipAdress = getClientIP(req);
+        const deviceInfo = extractDeviceInfo(userAgent);
+
+        const sessionInfo = {
+          ipAdress,
+          userAgent,
+          ...deviceInfo,
+          location: '',
+        };
+
         const user = await this.UserService.verifyUserEmail(token, email);
-        const session = await this.UserService.createSession(user.id, '', '');
+        const session = await this.UserService.createSession(
+          user.id,
+          sessionInfo,
+        );
         res.status(200).json({
           success: true,
           message: 'Email verified successfully',
@@ -65,8 +80,21 @@ export class UserController {
         await loginValidator.validate(req.body);
 
         const userData: LoginDto = req.body;
-        const { user, sessionId, token } =
-          await this.UserService.login(userData);
+        const userAgent = req.headers['user-agent'] || '';
+        const ipAdress = getClientIP(req);
+        const deviceInfo = extractDeviceInfo(userAgent);
+
+        const sessionInfo = {
+          ipAdress,
+          userAgent,
+          ...deviceInfo,
+          location: '',
+        };
+
+        const { user, sessionId, token } = await this.UserService.login(
+          userData,
+          sessionInfo,
+        );
         res.cookie('jwt', token, { httpOnly: true, secure: true });
 
         res.status(200).json({
