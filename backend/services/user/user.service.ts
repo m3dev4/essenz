@@ -14,6 +14,47 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 
+/**
+ * UserService provides functionalities related to user management such as
+ * user registration, login, session management, and user profile updates.
+ *
+ * - `createUser(userData: UserCreateDto)`: Registers a new user. It checks if the email
+ *   and username are available, hashes the password, creates a new user record in the database,
+ *   and sends a verification email.
+ *
+ * - `login(loginData: LoginDto)`: Logs in a user by verifying the email and password.
+ *   If valid, it generates a session and returns the user's data along with the session ID.
+ *
+ * - `createSession(userId: string, deviceInfo: string, ipAdress: string)`: Creates a new session
+ *   for a user with the given device information and IP address.
+ *
+ * - `getProfileByUsername(username: string)`: Retrieves a user's profile by their username.
+ *
+ * - `getProfile(userId: string)`: Retrieves the profile information of the currently authenticated user.
+ *
+ * - `updateUser(userId: string, userData: updateUserDto)`: Updates the user's profile information.
+ *
+ * - `deleteUser(userId: string)`: Deletes the user account associated with the provided user ID.
+ *
+ * - `getAllSession(userId: string)`: Retrieves all active sessions of a user.
+ *
+ * - `verifyEmail(token: string)`: Verifies a user's email using the provided token.
+ *
+ * - `getAllUsers()`: Retrieves a list of all users (admin functionality).
+ *
+ * - `getUserById(userId: string)`: Retrieves a user's details by their ID (admin functionality).
+ *
+ * - `deleteUserById(userId: string)`: Deletes a user by their ID (admin functionality).
+ *
+ * Dependencies:
+ * - `PrismaClient`: Interacts with the database.
+ * - `bcrypt`: Used for hashing passwords.
+ * - `jsonwebtoken`: Generates and verifies JWT tokens.
+ * - `sendVerificationEmail`: Sends email verifications.
+ * - `AppError`: Handles application-specific errors.
+ * - Various user-related DTOs and types are imported from `../../types/userTypes`.
+ */
+
 export class UserService {
   private prisma: PrismaClient;
 
