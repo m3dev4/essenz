@@ -8,6 +8,7 @@ export interface User {
   email: string;
   password: string;
   bio: string;
+  age: number;
   avatarUrl: string;
   createdAt: Date;
   updatedAt: Date;

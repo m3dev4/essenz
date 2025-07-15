@@ -17,6 +17,7 @@ model User {
   email                      String    @unique
   password                   String
   bio                        String
+  age                        Int
   avatarUrl                  String
   createdAt                  DateTime  @default(now())
   updatedAt                  DateTime  @default(now())
@@ -26,6 +27,9 @@ model User {
   isPremium                  Boolean   @default(false)
   role                       UserRoles @default(USER)
   sessions                   Session[]
+
+  onboardingStep   OnboardingStep @default(BASIC)
+  isOnboardingDone Boolean        @default(false)
 }
 
 model Session {
@@ -50,4 +54,16 @@ enum UserRoles {
   ADMIN
   USER
   MODERATOR
+}
+
+enum OnboardingStep {
+  BASIC
+  FIRSTNAME
+  LASTNAME
+  AGE
+  BIO
+  AVATARURL
+  INTEREST
+  SCROLL
+  DONE
 }

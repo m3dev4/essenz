@@ -130,6 +130,7 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   bio: 'bio',
+  age: 'age',
   avatarUrl: 'avatarUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -137,7 +138,9 @@ exports.Prisma.UserScalarFieldEnum = {
   verificationToken: 'verificationToken',
   verificationTokenExpiresAt: 'verificationTokenExpiresAt',
   isPremium: 'isPremium',
-  role: 'role'
+  role: 'role',
+  onboardingStep: 'onboardingStep',
+  isOnboardingDone: 'isOnboardingDone'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -175,6 +178,18 @@ exports.UserRoles = exports.$Enums.UserRoles = {
   ADMIN: 'ADMIN',
   USER: 'USER',
   MODERATOR: 'MODERATOR'
+};
+
+exports.OnboardingStep = exports.$Enums.OnboardingStep = {
+  BASIC: 'BASIC',
+  FIRSTNAME: 'FIRSTNAME',
+  LASTNAME: 'LASTNAME',
+  AGE: 'AGE',
+  BIO: 'BIO',
+  AVATARURL: 'AVATARURL',
+  INTEREST: 'INTEREST',
+  SCROLL: 'SCROLL',
+  DONE: 'DONE'
 };
 
 exports.Prisma.ModelName = {
