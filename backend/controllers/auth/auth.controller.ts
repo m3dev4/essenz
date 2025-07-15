@@ -73,6 +73,23 @@ export class UserController {
     },
   );
 
+  //GetAllsesion
+  public getAllSession = asynchandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const userId = req.params.Id;
+        const sessions = await this.UserService.getAllSession(userId);
+        res.status(200).json({
+          success: true,
+          message: 'All sessions retrived successfully',
+          data: sessions,
+        });
+      } catch (error: any) {
+        throw new AppError(error.message, 500, true, error.message);
+      }
+    },
+  );
+
   //Login
   public login = asynchandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {

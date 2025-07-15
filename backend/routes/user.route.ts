@@ -23,6 +23,11 @@ router.delete(
   isAuthenticated,
   userController.deleteUser,
 );
+router.get(
+  '/profile/sessions/:id',
+  isAuthenticated,
+  userController.getAllSession,
+);
 
 ///Route admin
 router.get(

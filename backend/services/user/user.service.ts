@@ -4,6 +4,7 @@ import { sendVerificationEmail } from '../../mail/resend';
 import AppError from '../../middlewares/AppError';
 import {
   LoginDto,
+  Session,
   updateUserDto,
   User,
   UserCreateDto,
@@ -163,6 +164,19 @@ export class UserService {
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       },
     });
+  }
+
+  //GetAllSession
+  public async getAllSession(userId: string): Promise<Session[]> {
+    const sessions = await this.prisma.session.findMany({
+      where: { userId },
+    });
+
+    if (!sessions) {
+      throw new AppError('User not found', 404, true, 'User not found');
+    }
+
+    return sessions;
   }
 
   //Login
