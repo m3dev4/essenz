@@ -36,11 +36,30 @@ export namespace $Enums {
 
 export type UserRoles = (typeof UserRoles)[keyof typeof UserRoles]
 
+
+export const OnboardingStep: {
+  BASIC: 'BASIC',
+  FIRSTNAME: 'FIRSTNAME',
+  LASTNAME: 'LASTNAME',
+  AGE: 'AGE',
+  BIO: 'BIO',
+  AVATARURL: 'AVATARURL',
+  INTEREST: 'INTEREST',
+  SCROLL: 'SCROLL',
+  DONE: 'DONE'
+};
+
+export type OnboardingStep = (typeof OnboardingStep)[keyof typeof OnboardingStep]
+
 }
 
 export type UserRoles = $Enums.UserRoles
 
 export const UserRoles: typeof $Enums.UserRoles
+
+export type OnboardingStep = $Enums.OnboardingStep
+
+export const OnboardingStep: typeof $Enums.OnboardingStep
 
 /**
  * ##  Prisma Client ʲˢ
@@ -983,8 +1002,18 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    age: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    age: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -995,6 +1024,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     bio: string | null
+    age: number | null
     avatarUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1003,6 +1033,8 @@ export namespace Prisma {
     verificationTokenExpiresAt: Date | null
     isPremium: boolean | null
     role: $Enums.UserRoles | null
+    onboardingStep: $Enums.OnboardingStep | null
+    isOnboardingDone: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1013,6 +1045,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     bio: string | null
+    age: number | null
     avatarUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1021,6 +1054,8 @@ export namespace Prisma {
     verificationTokenExpiresAt: Date | null
     isPremium: boolean | null
     role: $Enums.UserRoles | null
+    onboardingStep: $Enums.OnboardingStep | null
+    isOnboardingDone: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1031,6 +1066,7 @@ export namespace Prisma {
     email: number
     password: number
     bio: number
+    age: number
     avatarUrl: number
     createdAt: number
     updatedAt: number
@@ -1039,9 +1075,19 @@ export namespace Prisma {
     verificationTokenExpiresAt: number
     isPremium: number
     role: number
+    onboardingStep: number
+    isOnboardingDone: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    age?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    age?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -1051,6 +1097,7 @@ export namespace Prisma {
     email?: true
     password?: true
     bio?: true
+    age?: true
     avatarUrl?: true
     createdAt?: true
     updatedAt?: true
@@ -1059,6 +1106,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: true
     isPremium?: true
     role?: true
+    onboardingStep?: true
+    isOnboardingDone?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1069,6 +1118,7 @@ export namespace Prisma {
     email?: true
     password?: true
     bio?: true
+    age?: true
     avatarUrl?: true
     createdAt?: true
     updatedAt?: true
@@ -1077,6 +1127,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: true
     isPremium?: true
     role?: true
+    onboardingStep?: true
+    isOnboardingDone?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1087,6 +1139,7 @@ export namespace Prisma {
     email?: true
     password?: true
     bio?: true
+    age?: true
     avatarUrl?: true
     createdAt?: true
     updatedAt?: true
@@ -1095,6 +1148,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: true
     isPremium?: true
     role?: true
+    onboardingStep?: true
+    isOnboardingDone?: true
     _all?: true
   }
 
@@ -1136,6 +1191,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -1166,6 +1233,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -1178,6 +1247,7 @@ export namespace Prisma {
     email: string
     password: string
     bio: string
+    age: number
     avatarUrl: string
     createdAt: Date
     updatedAt: Date
@@ -1186,7 +1256,11 @@ export namespace Prisma {
     verificationTokenExpiresAt: Date | null
     isPremium: boolean
     role: $Enums.UserRoles
+    onboardingStep: $Enums.OnboardingStep
+    isOnboardingDone: boolean
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -1213,6 +1287,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     bio?: boolean
+    age?: boolean
     avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1221,6 +1296,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: boolean
     isPremium?: boolean
     role?: boolean
+    onboardingStep?: boolean
+    isOnboardingDone?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1233,6 +1310,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     bio?: boolean
+    age?: boolean
     avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1241,6 +1319,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: boolean
     isPremium?: boolean
     role?: boolean
+    onboardingStep?: boolean
+    isOnboardingDone?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1251,6 +1331,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     bio?: boolean
+    age?: boolean
     avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1259,6 +1340,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: boolean
     isPremium?: boolean
     role?: boolean
+    onboardingStep?: boolean
+    isOnboardingDone?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1280,6 +1363,7 @@ export namespace Prisma {
       email: string
       password: string
       bio: string
+      age: number
       avatarUrl: string
       createdAt: Date
       updatedAt: Date
@@ -1288,6 +1372,8 @@ export namespace Prisma {
       verificationTokenExpiresAt: Date | null
       isPremium: boolean
       role: $Enums.UserRoles
+      onboardingStep: $Enums.OnboardingStep
+      isOnboardingDone: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1689,6 +1775,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly bio: FieldRef<"User", 'String'>
+    readonly age: FieldRef<"User", 'Int'>
     readonly avatarUrl: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -1697,6 +1784,8 @@ export namespace Prisma {
     readonly verificationTokenExpiresAt: FieldRef<"User", 'DateTime'>
     readonly isPremium: FieldRef<"User", 'Boolean'>
     readonly role: FieldRef<"User", 'UserRoles'>
+    readonly onboardingStep: FieldRef<"User", 'OnboardingStep'>
+    readonly isOnboardingDone: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -3108,6 +3197,7 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     bio: 'bio',
+    age: 'age',
     avatarUrl: 'avatarUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -3115,7 +3205,9 @@ export namespace Prisma {
     verificationToken: 'verificationToken',
     verificationTokenExpiresAt: 'verificationTokenExpiresAt',
     isPremium: 'isPremium',
-    role: 'role'
+    role: 'role',
+    onboardingStep: 'onboardingStep',
+    isOnboardingDone: 'isOnboardingDone'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -3185,6 +3277,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -3220,16 +3326,30 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'OnboardingStep'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type EnumOnboardingStepFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OnboardingStep'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'OnboardingStep[]'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type ListEnumOnboardingStepFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OnboardingStep[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -3247,6 +3367,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     bio?: StringFilter<"User"> | string
+    age?: IntFilter<"User"> | number
     avatarUrl?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -3255,6 +3376,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     isPremium?: BoolFilter<"User"> | boolean
     role?: EnumUserRolesFilter<"User"> | $Enums.UserRoles
+    onboardingStep?: EnumOnboardingStepFilter<"User"> | $Enums.OnboardingStep
+    isOnboardingDone?: BoolFilter<"User"> | boolean
     sessions?: SessionListRelationFilter
   }
 
@@ -3266,6 +3389,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     bio?: SortOrder
+    age?: SortOrder
     avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -3274,6 +3398,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrderInput | SortOrder
     isPremium?: SortOrder
     role?: SortOrder
+    onboardingStep?: SortOrder
+    isOnboardingDone?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
   }
 
@@ -3288,6 +3414,7 @@ export namespace Prisma {
     lastName?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     bio?: StringFilter<"User"> | string
+    age?: IntFilter<"User"> | number
     avatarUrl?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -3296,6 +3423,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     isPremium?: BoolFilter<"User"> | boolean
     role?: EnumUserRolesFilter<"User"> | $Enums.UserRoles
+    onboardingStep?: EnumOnboardingStepFilter<"User"> | $Enums.OnboardingStep
+    isOnboardingDone?: BoolFilter<"User"> | boolean
     sessions?: SessionListRelationFilter
   }, "id" | "username" | "email">
 
@@ -3307,6 +3436,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     bio?: SortOrder
+    age?: SortOrder
     avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -3315,9 +3445,13 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrderInput | SortOrder
     isPremium?: SortOrder
     role?: SortOrder
+    onboardingStep?: SortOrder
+    isOnboardingDone?: SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -3331,6 +3465,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     bio?: StringWithAggregatesFilter<"User"> | string
+    age?: IntWithAggregatesFilter<"User"> | number
     avatarUrl?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -3339,6 +3474,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     isPremium?: BoolWithAggregatesFilter<"User"> | boolean
     role?: EnumUserRolesWithAggregatesFilter<"User"> | $Enums.UserRoles
+    onboardingStep?: EnumOnboardingStepWithAggregatesFilter<"User"> | $Enums.OnboardingStep
+    isOnboardingDone?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type SessionWhereInput = {
@@ -3449,6 +3586,7 @@ export namespace Prisma {
     email: string
     password: string
     bio: string
+    age: number
     avatarUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -3457,6 +3595,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     isPremium?: boolean
     role?: $Enums.UserRoles
+    onboardingStep?: $Enums.OnboardingStep
+    isOnboardingDone?: boolean
     sessions?: SessionCreateNestedManyWithoutUserInput
   }
 
@@ -3468,6 +3608,7 @@ export namespace Prisma {
     email: string
     password: string
     bio: string
+    age: number
     avatarUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -3476,6 +3617,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     isPremium?: boolean
     role?: $Enums.UserRoles
+    onboardingStep?: $Enums.OnboardingStep
+    isOnboardingDone?: boolean
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -3487,6 +3630,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
     avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3495,6 +3639,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+    onboardingStep?: EnumOnboardingStepFieldUpdateOperationsInput | $Enums.OnboardingStep
+    isOnboardingDone?: BoolFieldUpdateOperationsInput | boolean
     sessions?: SessionUpdateManyWithoutUserNestedInput
   }
 
@@ -3506,6 +3652,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
     avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3514,6 +3661,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+    onboardingStep?: EnumOnboardingStepFieldUpdateOperationsInput | $Enums.OnboardingStep
+    isOnboardingDone?: BoolFieldUpdateOperationsInput | boolean
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -3525,6 +3674,7 @@ export namespace Prisma {
     email: string
     password: string
     bio: string
+    age: number
     avatarUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -3533,6 +3683,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     isPremium?: boolean
     role?: $Enums.UserRoles
+    onboardingStep?: $Enums.OnboardingStep
+    isOnboardingDone?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -3543,6 +3695,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
     avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3551,6 +3704,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+    onboardingStep?: EnumOnboardingStepFieldUpdateOperationsInput | $Enums.OnboardingStep
+    isOnboardingDone?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -3561,6 +3716,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
     avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3569,6 +3725,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+    onboardingStep?: EnumOnboardingStepFieldUpdateOperationsInput | $Enums.OnboardingStep
+    isOnboardingDone?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SessionCreateInput = {
@@ -3704,6 +3862,17 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -3753,6 +3922,13 @@ export namespace Prisma {
     not?: NestedEnumUserRolesFilter<$PrismaModel> | $Enums.UserRoles
   }
 
+  export type EnumOnboardingStepFilter<$PrismaModel = never> = {
+    equals?: $Enums.OnboardingStep | EnumOnboardingStepFieldRefInput<$PrismaModel>
+    in?: $Enums.OnboardingStep[] | ListEnumOnboardingStepFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OnboardingStep[] | ListEnumOnboardingStepFieldRefInput<$PrismaModel>
+    not?: NestedEnumOnboardingStepFilter<$PrismaModel> | $Enums.OnboardingStep
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -3776,6 +3952,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     bio?: SortOrder
+    age?: SortOrder
     avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -3784,6 +3961,12 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrder
     isPremium?: SortOrder
     role?: SortOrder
+    onboardingStep?: SortOrder
+    isOnboardingDone?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    age?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -3794,6 +3977,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     bio?: SortOrder
+    age?: SortOrder
     avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -3802,6 +3986,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrder
     isPremium?: SortOrder
     role?: SortOrder
+    onboardingStep?: SortOrder
+    isOnboardingDone?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -3812,6 +3998,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     bio?: SortOrder
+    age?: SortOrder
     avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -3820,6 +4007,12 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrder
     isPremium?: SortOrder
     role?: SortOrder
+    onboardingStep?: SortOrder
+    isOnboardingDone?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    age?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3838,6 +4031,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -3902,6 +4111,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserRolesFilter<$PrismaModel>
     _max?: NestedEnumUserRolesFilter<$PrismaModel>
+  }
+
+  export type EnumOnboardingStepWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OnboardingStep | EnumOnboardingStepFieldRefInput<$PrismaModel>
+    in?: $Enums.OnboardingStep[] | ListEnumOnboardingStepFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OnboardingStep[] | ListEnumOnboardingStepFieldRefInput<$PrismaModel>
+    not?: NestedEnumOnboardingStepWithAggregatesFilter<$PrismaModel> | $Enums.OnboardingStep
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOnboardingStepFilter<$PrismaModel>
+    _max?: NestedEnumOnboardingStepFilter<$PrismaModel>
   }
 
   export type UserRelationFilter = {
@@ -3978,6 +4197,14 @@ export namespace Prisma {
     set?: string
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -3996,6 +4223,10 @@ export namespace Prisma {
 
   export type EnumUserRolesFieldUpdateOperationsInput = {
     set?: $Enums.UserRoles
+  }
+
+  export type EnumOnboardingStepFieldUpdateOperationsInput = {
+    set?: $Enums.OnboardingStep
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -4054,6 +4285,17 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4102,6 +4344,13 @@ export namespace Prisma {
     not?: NestedEnumUserRolesFilter<$PrismaModel> | $Enums.UserRoles
   }
 
+  export type NestedEnumOnboardingStepFilter<$PrismaModel = never> = {
+    equals?: $Enums.OnboardingStep | EnumOnboardingStepFieldRefInput<$PrismaModel>
+    in?: $Enums.OnboardingStep[] | ListEnumOnboardingStepFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OnboardingStep[] | ListEnumOnboardingStepFieldRefInput<$PrismaModel>
+    not?: NestedEnumOnboardingStepFilter<$PrismaModel> | $Enums.OnboardingStep
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -4119,7 +4368,7 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -4127,7 +4376,23 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -4202,6 +4467,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserRolesFilter<$PrismaModel>
     _max?: NestedEnumUserRolesFilter<$PrismaModel>
+  }
+
+  export type NestedEnumOnboardingStepWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OnboardingStep | EnumOnboardingStepFieldRefInput<$PrismaModel>
+    in?: $Enums.OnboardingStep[] | ListEnumOnboardingStepFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OnboardingStep[] | ListEnumOnboardingStepFieldRefInput<$PrismaModel>
+    not?: NestedEnumOnboardingStepWithAggregatesFilter<$PrismaModel> | $Enums.OnboardingStep
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOnboardingStepFilter<$PrismaModel>
+    _max?: NestedEnumOnboardingStepFilter<$PrismaModel>
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -4290,6 +4565,7 @@ export namespace Prisma {
     email: string
     password: string
     bio: string
+    age: number
     avatarUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -4298,6 +4574,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     isPremium?: boolean
     role?: $Enums.UserRoles
+    onboardingStep?: $Enums.OnboardingStep
+    isOnboardingDone?: boolean
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -4308,6 +4586,7 @@ export namespace Prisma {
     email: string
     password: string
     bio: string
+    age: number
     avatarUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -4316,6 +4595,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     isPremium?: boolean
     role?: $Enums.UserRoles
+    onboardingStep?: $Enums.OnboardingStep
+    isOnboardingDone?: boolean
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -4342,6 +4623,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
     avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4350,6 +4632,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+    onboardingStep?: EnumOnboardingStepFieldUpdateOperationsInput | $Enums.OnboardingStep
+    isOnboardingDone?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -4360,6 +4644,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     bio?: StringFieldUpdateOperationsInput | string
+    age?: IntFieldUpdateOperationsInput | number
     avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4368,6 +4653,8 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+    onboardingStep?: EnumOnboardingStepFieldUpdateOperationsInput | $Enums.OnboardingStep
+    isOnboardingDone?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SessionCreateManyUserInput = {
