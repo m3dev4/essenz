@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import { envConfig } from './config/env.config';
 import userRoutes from './routes/user.route';
 import cookieParser from 'cookie-parser';
+import onboardingRoutes from './routes/onboarding.route';
 
 const app = express();
 Sentry.init({
@@ -29,6 +30,7 @@ app.use(function onError(
 });
 
 app.use('/api/v1/user/auth', userRoutes);
+app.use('/api/v1/user/onboarding', onboardingRoutes);
 
 app.get('/', (req: any, res: any) => {
   res.json({

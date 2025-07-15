@@ -1,16 +1,21 @@
 # Essenz+ Backend
 
-## Overview
-Essenz+ backend is a robust, type-safe Node.js API built with **TypeScript**, **Express** and **Prisma ORM**. It handles authentication, user management and transactional email with Resend.
+Backend Node.js/Express pour la gestion des utilisateurs, onboarding dynamique, sessions, et upload d’avatar avec Cloudinary.
 
-Key features:
-- Modern TypeScript configuration (strict mode, path aliases).
-- Express HTTP server with modular routing & controllers.
-- PostgreSQL database accessed via Prisma Client.
-- Secure user registration flow with hashed passwords, email-verification tokens and role management.
-- Transactional emails sent through Resend.
-- Centralised validation via **Yup** validators.
-- Comprehensive ESLint + Prettier setup for consistent code style.
+---
+
+## 🚀 Fonctionnalités principales
+
+- **Auth & Sessions** : Création, login, vérification email, gestion de sessions multi-device.
+- **Onboarding Multi-étapes** :
+  - Étape 1 : Prénom & nom (obligatoire)
+  - Étape 2 : Âge (obligatoire)
+  - Étape 3 : Bio (optionnelle)
+  - Étape 4 : Upload avatar (optionnel, Cloudinary)
+- **Upload sécurisé** : Upload d’images via Multer (stockage mémoire), validation mimetype, envoi sur Cloudinary.
+- **Middlewares** : Auth, gestion d’erreurs, validation, upload, etc.
+- **Personnalisation du contenu** : Sélection de catégories d’intérêt (à venir).
+- **Prisma ORM** : Gestion des modèles et de la base de données.
 
 ---
 

@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
-import { PrismaClient, UserRoles } from '../lib/generated/prisma';
-import AppError from './AppError';
-import jwt from 'jsonwebtoken';
-import { envConfig } from '../config/env.config';
-import { User } from '../types/userTypes';
-import asynchandler from './asynchandler';
+import { NextFunction, Request, Response } from 'express'
+import { PrismaClient, UserRoles } from '../lib/generated/prisma'
+import AppError from './AppError'
+import jwt from 'jsonwebtoken'
+import { envConfig } from '../config/env.config'
+import { User } from '../types/userTypes'
+import asynchandler from './asynchandler'
 
 /**
  * Middleware d'authentification JWT pour Express.
@@ -31,68 +31,63 @@ import asynchandler from './asynchandler';
  * - isAuthenticated : middleware à utiliser sur les routes nécessitant une authentification JWT valide
  */
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 interface RequestWithUser extends Request {
-  user?: User;
+  user?: User
 }
 
 interface JwtPayloadWithUser extends jwt.JwtPayload {
-  userId: string;
+  userId: string
 }
 
 const isAuthenticated = asynchandler(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    let token = req.cookies.jwt;
+    let token = req.cookies.jwt
 
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization
     if (!token && authHeader && authHeader.startsWith('Bearer')) {
-      token = authHeader.split(' ')[1];
+      token = authHeader.split(' ')[1]
     }
 
-    const sessionId = req.headers['x-session-id'] as string | undefined;
+    const sessionId = req.headers['x-session-id'] as string | undefined
     if (!token && sessionId) {
       const session = await prisma.session.findUnique({
         where: { id: sessionId },
-      });
+      })
       if (session) {
-        req.user = { id: session.userId } as User;
-        return next();
+        req.user = { id: session.userId } as User
+        return next()
       }
     }
 
     if (!token) {
-      return next(new AppError('Unauthorized', 401, true, 'Unauthorized'));
+      return next(new AppError('Unauthorized', 401, true, 'Unauthorized'))
     }
 
     try {
-      const decoded = jwt.verify(
-        token,
-        envConfig.JWT_SECRET,
-      ) as JwtPayloadWithUser;
+      const decoded = jwt.verify(token, envConfig.JWT_SECRET) as JwtPayloadWithUser
       const user = await prisma.user.findUnique({
         where: { id: decoded.userId },
         include: { sessions: true },
-      });
+      })
       if (!user) {
-        return next(new AppError('User not found', 401, true, 'Unauthorized'));
+        return next(new AppError('User not found', 401, true, 'Unauthorized'))
       }
-      req.user = user;
-      next();
+      req.user = user
+      next()
     } catch (error) {
-      return next(new AppError('Unauthorized', 401, true, 'Unauthorized'));
+      return next(new AppError('Unauthorized', 401, true, 'Unauthorized'))
     }
-  },
-);
+  }
+)
 
-const isAdmin = asynchandler(
-  async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    if (req.user && req.user.role === UserRoles.ADMIN) {
-      next();
-    } else {
-      return next(new AppError('Unauthorized', 401, true, 'Unauthorized'));
-    }
-  },
-);
+const isAdmin = asynchandler(async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  if (req.user && req.user.role === UserRoles.ADMIN) {
+    next()
+  } else {
+    return next(new AppError('Unauthorized', 401, true, 'Unauthorized'))
+  }
+})
 
-export { isAuthenticated, isAdmin };
+export { isAuthenticated, isAdmin }

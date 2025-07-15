@@ -106,6 +106,7 @@ export class UserService {
         password: passwordHash,
         isVerified: false,
         verificationToken,
+        age: 0,
         verificationTokenExpiresAt,
         firstName: '',
         lastName: '',
