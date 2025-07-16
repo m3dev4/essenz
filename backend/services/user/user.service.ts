@@ -10,9 +10,9 @@ import {
   UserCreateDto,
   userProfile,
 } from '../../types/userTypes';
-import bcrypt from 'bcrypt';
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
+import * as jwt from 'jsonwebtoken';
 
 /**
  * UserService provides functionalities related to user management such as
