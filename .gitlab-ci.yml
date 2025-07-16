@@ -5,14 +5,7 @@ test:
   stage: test
   image: node:20
   script:
+    - cd backend
     - pnpm ci
     - pnpm test
-stages:
-  - test
 
-test:
-  stage: test
-  image: node:20
-  script:
-    - npm ci
-    - npm test

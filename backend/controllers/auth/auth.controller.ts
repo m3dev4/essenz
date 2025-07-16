@@ -14,8 +14,8 @@ import { extractDeviceInfo, getClientIP } from '../../utils/sessionUtils'
 export class UserController {
   private UserService: UserService
 
-  constructor() {
-    this.UserService = new UserService()
+  constructor(userService?: UserService) {
+    this.UserService = userService ?? new UserService()
   }
 
   // Crée un utilisateur
