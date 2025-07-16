@@ -5,5 +5,5 @@ test:
   stage: test
   image: node:20
   script:
-    - npm ci
-    - npm test
+    - pnpm ci
+    - pnpm test
