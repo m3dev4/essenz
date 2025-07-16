@@ -1,9 +1,11 @@
 services:
   user-service:
-    build: .
+    build:
+      context: ../../ # Contexte depuis backend/
+      dockerfile: services/user/Dockerfile
     ports:
       - '8080:8080'
     environment:
-      - process.env.DATABASE_URI
-      - process.env.DIRECT_URL
-      - process.env.JWT_SECRET
+      - DATABASE_URI
+      - DIRECT_URL
+      - JWT_SECRET

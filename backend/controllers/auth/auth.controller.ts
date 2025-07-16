@@ -14,8 +14,8 @@ import { extractDeviceInfo, getClientIP } from '../../utils/sessionUtils'
 export class UserController {
   private UserService: UserService
 
-  constructor() {
-    this.UserService = new UserService()
+  constructor(userService?: UserService) {
+    this.UserService = userService ?? new UserService()
   }
 
   // Crée un utilisateur
@@ -102,7 +102,11 @@ export class UserController {
         }
 
         const { user, sessionId, token } = await this.UserService.login(userData, sessionInfo)
-        res.cookie('jwt', token, { httpOnly: true, secure: true })
+        res.cookie('jwt', token, { 
+  httpOnly: true, 
+  secure: process.env.NODE_ENV === 'production', 
+  sameSite: 'lax'
+})
 
         res.status(200).json({
           success: true,

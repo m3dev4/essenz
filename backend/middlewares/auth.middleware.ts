@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { PrismaClient, UserRoles } from '../lib/generated/prisma'
 import AppError from './AppError'
-import jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 import { envConfig } from '../config/env.config'
 import { User } from '../types/userTypes'
 import asynchandler from './asynchandler'
