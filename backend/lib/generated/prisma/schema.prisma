@@ -30,6 +30,7 @@ model User {
 
   onboardingStep   OnboardingStep @default(BASIC)
   isOnboardingDone Boolean        @default(false)
+  interests        SubCategory[]
 }
 
 model Session {
@@ -66,4 +67,24 @@ enum OnboardingStep {
   INTEREST
   SCROLL
   DONE
+}
+
+model Category {
+  id            String        @id @default(cuid())
+  name          String        @unique
+  description   String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now())
+  subCategories SubCategory[]
+}
+
+model SubCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  user        User[]
 }

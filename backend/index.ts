@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser'
 import onboardingRoutes from './routes/onboarding.route'
 import limit from './security/rateLimit/limit'
 import helmet from 'helmet'
+import categoryRoutes from './routes/category.route'
 
 const app = express()
 Sentry.init({
@@ -21,7 +22,7 @@ app.use(express.urlencoded())
 app.use(cookieParser())
 
 app.use(morgan('dev'))
-app.use(limit)
+
 app.use(helmet())
 
 app.use(function onError(err: Error, req: Request, res: Response, next: NextFunction) {
@@ -31,6 +32,7 @@ app.use(function onError(err: Error, req: Request, res: Response, next: NextFunc
 
 app.use('/api/v1/user/auth', userRoutes)
 app.use('/api/v1/user/onboarding', onboardingRoutes)
+app.use('/api/v1/category', categoryRoutes)
 
 app.get('/', (req: any, res: any) => {
   res.json({
